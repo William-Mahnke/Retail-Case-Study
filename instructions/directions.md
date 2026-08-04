@@ -37,15 +37,3 @@ Products      : 500 rows
 Sales orders  : 500 rows
 Total         : 1,500 input rows
 ```
-
-## Start
-
-Read:
-
-```text
-docs/Implementation_Guide.md
-```
-
-Then provide only the `student` folder and `datasets` folder to trainees.
-
-Keep the `answers` folder separately for trainer evaluation.
