@@ -16,7 +16,7 @@ demonstration.
 ## Datasets
 
 | Dataset | Rows | Purpose |
-|---|---:|---|
+| --- | ---: | --- |
 | `customers_500.csv` | 500 | Customer profile, segment, location, activity and update history |
 | `products_500.csv` | 500 | Product, category, price, cost, supplier, stock and active flag |
 | `sales_orders_500.csv` | 500 | Orders, quantities, discounts, status and delivery information |
