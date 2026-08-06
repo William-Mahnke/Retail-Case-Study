@@ -1,9 +1,10 @@
 from airflow import DAG
 from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
-from airflow.providers.databricks.operators.databricks_sql import DatabricksSqlOperator
+from airflow.providers.databricks.hooks.databricks_sql import DatabricksSqlHook
 from airflow.operators.python import PythonOperator
 from kafka import KafkaConsumer, KafkaProducer
 from datetime import datetime
+from decimal import Decimal
 import json
 
 with DAG(
@@ -20,12 +21,25 @@ with DAG(
         job_id="409613695793073",
     )
 
-    fetch_gold_rows = DatabricksSqlOperator(
+    def fetch_gold_rows(**context):
+        hook = DatabricksSqlHook(databricks_conn_id="databricks_sql")
+        sql = "SELECT event_id, event_type, sales_month, category, order_count, total_quantity, total_revenue FROM workspace.retail_fresher.gold_events"
+        with hook.get_conn() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(sql)
+                columns = [desc[0] for desc in cursor.description]
+                rows = []
+                for row in cursor.fetchall():
+                    row_dict = dict(zip(columns, row))
+                    row_dict = {k: (float(v) if isinstance(v, Decimal) else v) for k, v in row_dict.items()}
+                    rows.append(row_dict)
+        context["ti"].xcom_push(key="return_value", value=rows)
+
+    fetch_gold_rows_task = PythonOperator(
         task_id="fetch_gold_rows",
-        databricks_conn_id="databricks_sql",
-        sql="SELECT sales_month, category, order_count, total_quantity, total_revenue FROM retail_fresher.monthly_category_sales",
-        do_xcom_push=True,
+        python_callable=fetch_gold_rows,
     )
+
 
     def publish_events(**context):
         rows = context["ti"].xcom_pull(task_ids="fetch_gold_rows")
@@ -68,4 +82,4 @@ with DAG(
         python_callable=consume_sample,
     )
 
-    run_job >> fetch_gold_rows >> publish_events_task >> consume_sample_task  # pyright: ignore[reportUnusedExpression, reportOperatorIssue]
+    run_job >> fetch_gold_rows_task >> publish_events_task >> consume_sample_task  # pyright: ignore[reportUnusedExpression, reportOperatorIssue]
