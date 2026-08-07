@@ -1,7 +1,16 @@
 # Retail-Case-Study
-## 
+## Deliverables
+- This project was made and is run with a docker container, to ensure compatibility across multiple systems.
+- The full source code for the Airflow + Kafka portion is within the "deliverables" folder. The "airflow-project" folder contains all source code for the project.
+  - The dag is named `retailpulse_dag.py` and contained within the dags
+  - The code for the kafka consumer is contained within the "scripts" folder, in the `kafka_consumer.py` file
+  - The code for the kafka producer is contained within a function in the dag `retailpulse_dag.py` file.
+    - There is a separate file in the scripts folder named "kafka_producer.py". It is a left over file from testing, and contains the same code found within the dag. This file is never executed
+- The `retail_sales_pipeline.ipynb` contains the code we used in our databricks instance
 
 ## Running on Airflow on your machine
+- Note: This project relies on our Databricks cloud project. Without connection credentials to it, this project will not run
+
 ### .ENV file
 - Once you have cloned the repository, move into the deliverables folder, then the airflow-project folder within that
 - All files needed to run the airflow project are there, except for a `.env` file
