@@ -37,13 +37,13 @@ def kafka_producer():
         row["producer_timestamp"] = datetime.now().isoformat()
 
         producer.send(
-            "retailpulse",
+            "retail-sales-summary",
             value=row
         )
 
     # This signals to the consumer that we have finished transmitting all data
     producer.send(
-        "retailpulse",
+        "retail-sales-summary",
         {
             "event_type": "END_OF_BATCH"
         }

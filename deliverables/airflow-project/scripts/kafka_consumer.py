@@ -3,7 +3,7 @@ from kafka import KafkaConsumer
 
 # Creating a consumer
 consumer = KafkaConsumer(
-    "retailpulse",
+    "retail-sales-summary",
     bootstrap_servers="kafka:9092",
     auto_offset_reset="earliest",
     enable_auto_commit=True,
@@ -20,7 +20,7 @@ for message in consumer:
         break
     events.append(event)
 
-with open("/opt/airflow/output/kafka_summary.json", "w") as f:
+with open("/opt/airflow/output/consumed_events.json", "w") as f:
     json.dump(events, f, indent=4)
 
 consumer.close()
