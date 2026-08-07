@@ -1,2 +1,90 @@
-.venv
+#===========================
+# Python
+# ==========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+*_env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# ==========================
+# VS Code
+# ==========================
+
+.vscode/
+
+# ==========================
+# JetBrains
+# ==========================
+
+.idea/
+
+# ==========================
+# OS Files
+# ==========================
+
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Environment Variables
+# ==========================
+
 .env
+
+# ==========================
+# Airflow
+# ==========================
+
+logs/
+airflow.db
+
+# Airflow PID files
+*.pid
+
+# ==========================
+# Output Files
+# ==========================
+
+output/
+
+# If you want to keep the folder but not its contents:
+#!output/.gitkeep
+
+# ==========================
+# Python Testing
+# ==========================
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================
+# Jupyter
+# ==========================
+
+.ipynb_checkpoints/
+
+# ==========================
+# Docker
+# ==========================
+
+*.log
+
+# ==========================
+# Temporary Files
+# ==========================
+
+*.tmp
+*.temp
